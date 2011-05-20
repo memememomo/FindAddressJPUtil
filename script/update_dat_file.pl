@@ -1,6 +1,5 @@
 use strict;
 use warnings;
-use lib 'lib';
 use LWP::UserAgent;
 use Archive::Zip;
 use File::Temp;
