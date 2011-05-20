@@ -1,22 +1,19 @@
 使い方
 
 
-郵便局のサイトから全国一括データを取ってくる
+■郵便局のサイトから全国一括データを取ってくる
 http://www.post.japanpost.jp/zipcode/dl/kogaki-zip.html
 
-KEN_ALL.CSV
 
 
-
-データをコンバートする
+■データをコンバートする
 my $csv_file = './KEN_ALL.CSV';
 my $output_file = './KEN_ALL_UTF.dat';
 
 FindAddressJPUtil::conversion($csv_file, $output_file);
 
 
-
-コンバートしたデータを使って検索
+■コンバートしたデータを使って検索
 my $dat_file = './KEN_ALL_UTF.dat';
 my $zipcode = '600-8815';
 my $list = FindAddressJPUtil::find_address($zipcode, $dat_file);
