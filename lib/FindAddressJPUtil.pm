@@ -88,31 +88,26 @@ sub find_address {
 
 
     my @lines = readpipe $grep;
-    my $count = $#lines + 1;
     my (@zipcode1, @zipcode2, @pref, @add1, @pref_id);
     my @address;
     foreach (0..$max_line){
 	my $line = decode($file_encode, $lines[$_]);
-	if($line && $line =~ /^([0-9]{3})([0-9]{4}),(.+府|.+県|.+道|.+都)(.+)$/)
-	{
-	    $zipcode1[$_] = $1;
-	    $zipcode2[$_] = $2;
-	    $pref[$_] = "$3";
-	    $add1[$_] = "$4";
-	    $pref_id[$_] = "";
+	for my $pref (@pref_list) {
+	    if($line && $line =~ /^([0-9]{3})([0-9]{4}),($pref)(.+)$/) {
 
-	    foreach my $id (0..$#pref_list){
-		if($pref_list[$id] eq "$pref[$_]"){
-		    $pref_id[$_] = $id;
-		}
+		$zipcode1[$_] = $1;
+		$zipcode2[$_] = $2;
+		$pref[$_] = $3;
+		$add1[$_] = $4;
+
+		push @address, {
+		    zipcode1 => $zipcode1[$_],
+		    zipcode2 => $zipcode2[$_],
+		    pref     => $pref[$_],
+		    addr1    => $add1[$_],
+		};
+
 	    }
-
-	    push @address, {
-		zipcode1 => $zipcode1[$_],
-		zipcode2 => $zipcode2[$_],
-		pref     => $pref[$_],
-		addr1     => $add1[$_],
-	    };
 	}
     }
 
